@@ -2,7 +2,7 @@
 
 repo: <https://github.com/commercialhaskell/stack>
 
-## Upgrade stack version
+## Upgrade stack executable version
 
 follow: <https://docs.haskellstack.org/en/stable/install_and_upgrade/>
 
@@ -41,3 +41,19 @@ checkers-0.5.6 from stack configuration does not match ==0.5.2  (latest matching
 ```
 
 go back to the previous step and fix the dependencies
+
+### Automation
+
+run this to bump the LTS version for all the project directories
+
+```shell
+# replace lts-16.17 with the latest version
+
+find . -maxdepth 2 -name "stack.yaml" -exec perl -wnl -i'' -E '/^resolver: (lts-.+)$/ and say "resolver: lts-16.17" and next; say' {} \;
+```
+
+run this to remove the `.stack-work` cache dir
+
+```shell
+find . -maxdepth 2 -name ".stack-work" -type d -exec rm -rf {} \;
+```
